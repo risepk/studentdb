@@ -9,9 +9,9 @@ This project is a starting point for a Flutter application.
 A few resources to get you started if this is your first Flutter project:
 
 <h2>Assignments</h2>
-- Validate Email, Mobile TextFields
+- Validate Email, Mobile TextFields (done)
 <br/>
-- Convert Uni TextField to DropDown with 10 universities
+- Convert Uni TextField to DropDown with 10 universities (done)
 <br/>
 - Redesign the Student Card widget with your own creativity
 <br/>

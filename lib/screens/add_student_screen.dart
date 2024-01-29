@@ -15,15 +15,18 @@ class AddStudentScreen extends StatefulWidget {
 class _AddStudentScreenState extends State<AddStudentScreen> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  late String name, email, mobile, uni;
+  late String name, email, mobile;
 
   String _selectedCourse = courses[0];
+  String _selectedUni = universities[0];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Student'),
+        backgroundColor: Colors.purple,
+        title: const Text('Add Student', style: TextStyle(color: Colors.white),),
+        leading: Icon(Icons.person, color: Colors.white,),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -49,6 +52,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 height: 16,
               ),
               TextFormField(
+                keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                   hintText: 'Email',
                   border: OutlineInputBorder(),
@@ -57,7 +61,12 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                   if (text == null || text.isEmpty) {
                     return 'Please provide value';
                   }
-
+                  final bool emailValid =
+                  RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(text);
+                  if (emailValid == false) {
+                    return 'Please Enter Valid Email E.g ali@gmail.com';
+                  }
                   email = text;
                   return null;
                 },
@@ -66,6 +75,9 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 height: 16,
               ),
               TextFormField(
+                keyboardType: TextInputType.phone,
+                maxLength: 11,
+
                 decoration: const InputDecoration(
                   hintText: 'Mobile',
                   border: OutlineInputBorder(),
@@ -114,22 +126,38 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                   );
                 }).toList(),
               ),
-              const SizedBox(
-                height: 16,
-              ),
-              TextFormField(
+              const SizedBox(height: 16,),
+              DropdownButtonFormField(
+                value: _selectedUni,
                 decoration: const InputDecoration(
-                  hintText: 'Uni',
                   border: OutlineInputBorder(),
                 ),
-                validator: (text) {
-                  if (text == null || text.isEmpty) {
-                    return 'Please provide value';
-                  }
-
-                  uni = text;
-                  return null;
+                isExpanded: true,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedUni = value!;
+                  });
                 },
+                onSaved: (value) {
+                  setState(() {
+                    _selectedUni = value!;
+                  });
+                },
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return "can't empty";
+                  } else {
+                    return null;
+                  }
+                },
+                items: universities.map((String val) {
+                  return DropdownMenuItem(
+                    value: val,
+                    child: Text(
+                      val,
+                    ),
+                  );
+                }).toList(),
               ),
               const SizedBox(
                 height: 16,
@@ -147,18 +175,18 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                         email: email,
                         mobile: mobile,
                         course: _selectedCourse,
-                        uni: uni,
+                        uni: _selectedUni,
                       );
 
                       int result = await DatabaseHelper.instance.saveStudent(student);
 
                       if( result > 0 ){
-                        print(result);
+                        //print(result);
                         Fluttertoast.showToast(msg: 'Record Saved', backgroundColor: Colors.green);
 
                         formKey.currentState!.reset();
                       }else{
-                        print(result);
+                        //print(result);
                         Fluttertoast.showToast(msg: 'Failed', backgroundColor: Colors.red);
 
                       }
