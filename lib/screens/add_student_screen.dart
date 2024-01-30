@@ -4,6 +4,7 @@ import 'package:session11_sqlite_db/db/database_helper.dart';
 import 'package:session11_sqlite_db/models/student.dart';
 import 'package:session11_sqlite_db/screens/student_list_screen.dart';
 import 'package:session11_sqlite_db/utility/data_store.dart';
+import 'package:session11_sqlite_db/widgets/beautiful_card.dart';
 
 class AddStudentScreen extends StatefulWidget {
   const AddStudentScreen({super.key});
@@ -26,7 +27,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
       appBar: AppBar(
         backgroundColor: Colors.purple,
         title: const Text('Add Student', style: TextStyle(color: Colors.white),),
-        leading: Icon(Icons.person, color: Colors.white,),
+        leading: const Icon(Icons.person, color: Colors.white,),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

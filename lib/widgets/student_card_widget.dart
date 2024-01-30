@@ -12,7 +12,7 @@ class StudentCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.teal,
+      color: Colors.blue,
       child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(children: [
